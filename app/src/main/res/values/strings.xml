@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">BienestAR</string>
+    <string name="default_product_description">Product</string>
+    <string name="default_image_product_description">Product image description</string>
+    <string name="bienestar_logo">BienestAR logo</string>
+    <string name="bienestar_brand">BienestAR</string>
+
+    <string name="assistance">Asistencia</string>
+    <string name="consultancy">Consultorio</string>
+    <string name="meals">Viandas</string>
+    <string name="pharmacy">Farmacia</string>
+
+    <string name="medical_speciality_header">Especialidad</string>
+    <string name="specialist_search_header">Búsqueda</string>
+    <string name="medical_speciality_search_hint">Especialidad</string>
+
+    <string name="meals_header">Viandas</string>
+    <string name="specialist_profile_picture_desc">Specialist profile picture</string>
+    <string name="specialist_name_default">Specialist name</string>
+    <string name="specialist_description_default">Specialist description</string>
+    <string name="meals_order_header">Tu pedido</string>
+    <string name="pharmacy_header">Farmacia</string>
+  <string name="pharmacy_search_hint">Buscar productos de farmacia y más...</string>
+</resources>
