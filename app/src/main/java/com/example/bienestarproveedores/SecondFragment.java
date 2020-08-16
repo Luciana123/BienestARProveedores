@@ -27,7 +27,7 @@ public class SecondFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(SecondFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_videoCallFragment);
+                        .navigate(R.id.action_consultancyAppointmentsFragment_to_videoCallFragment);
             }
         });
     }

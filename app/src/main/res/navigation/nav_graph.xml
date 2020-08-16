@@ -15,7 +15,15 @@
         android:label="first_fragment_label"
         tools:layout="@layout/products_fragment">
         <action
-            android:id="@+id/action_FirstFragment_to_videoCallFragment"
+            android:id="@+id/action_ProductsFragment_to_consultancyAppointmentsFragment2"
+            app:destination="@id/consultancyAppointmentsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/consultancyAppointmentsFragment"
+        android:name="com.example.bienestarproveedores.consultancy.ConsultancyAppointmentsFragment"
+        android:label="ConsultancyAppointmentsFragment" >
+        <action
+            android:id="@+id/action_consultancyAppointmentsFragment_to_videoCallFragment"
             app:destination="@id/videoCallFragment" />
     </fragment>
 </navigation>

@@ -36,7 +36,7 @@ public class ProductsFragment extends Fragment {
     consultancyProductLayout.setDescription(getString(R.string.consultancy));
     consultancyProductLayout.setImageResource(R.drawable.ic_main_medic);
     consultancyProductLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorConsultancy));
-    NavDirections consultancyAction = ProductsFragmentDirections.actionFirstFragmentToVideoCallFragment();
+    NavDirections consultancyAction = ProductsFragmentDirections.actionProductsFragmentToConsultancyAppointmentsFragment2();
     consultancyProductLayout.setOnClickListener(Navigation.createNavigateOnClickListener(consultancyAction));
 
     /* Viandas. */
