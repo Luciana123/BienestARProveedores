@@ -19,7 +19,7 @@ public class AppointmentsProvider {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public List<String> getClientsForDoctor(int id){
+    public List<Appointment> getClientsForDoctor(int id){
 
         //TODO ACA ES DONDE TENDRÍA QUE IR A LA DB A TRAERSE UNA LISTA DE TURNOS
         // LA DB DEBERÍA CONTENER UNA LISTA DE OBJETOS APPOINTMENT{DOCTOR, PACIENTE, CONSULTA}
