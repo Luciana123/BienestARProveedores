@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/ProductsFragment">
 
     <fragment
         android:id="@+id/videoCallFragment"
         android:name="com.example.bienestar.webrtc_demo.VideoCallFragment"
         android:label="VideoCallFragment" />
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.bienestarproveedores.FirstFragment"
+        android:id="@+id/ProductsFragment"
+        android:name="com.example.bienestarproveedores.ProductsFragment"
         android:label="first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/products_fragment">
         <action
             android:id="@+id/action_FirstFragment_to_videoCallFragment"
             app:destination="@id/videoCallFragment" />

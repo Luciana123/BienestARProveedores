@@ -3,7 +3,7 @@
     <string name="default_product_description">Product</string>
     <string name="default_image_product_description">Product image description</string>
     <string name="bienestar_logo">BienestAR logo</string>
-    <string name="bienestar_brand">BienestAR</string>
+    <string name="bienestar_brand">BienestAR \nProveedores</string>
 
     <string name="assistance">Asistencia</string>
     <string name="consultancy">Consultorio</string>
