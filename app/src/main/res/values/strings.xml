@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BienestAR</string>
+    <string name="app_name">BienestAR proveedores</string>
     <string name="default_product_description">Product</string>
     <string name="default_image_product_description">Product image description</string>
     <string name="bienestar_logo">BienestAR logo</string>
