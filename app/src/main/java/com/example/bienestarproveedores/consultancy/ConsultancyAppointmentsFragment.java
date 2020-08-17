@@ -103,7 +103,7 @@ public class ConsultancyAppointmentsFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    v.setBackgroundColor(v.getResources().getColor(android.R.color.holo_blue_light));
+                    v.setBackgroundColor(v.getResources().getColor(android.R.color.holo_red_light));
 
                     for(ConsultancyAppointmentsItemsViewHolder item: viewValues) {
                         if(item.itemView != v){

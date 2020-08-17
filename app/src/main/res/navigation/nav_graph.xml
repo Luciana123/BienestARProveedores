@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_ProductsFragment_to_consultancyAppointmentsFragment2"
             app:destination="@id/consultancyAppointmentsFragment" />
+        <action
+            android:id="@+id/action_ProductsFragment_to_mealsFragment"
+            app:destination="@id/mealsFragment" />
     </fragment>
     <fragment
         android:id="@+id/consultancyAppointmentsFragment"
@@ -38,4 +41,8 @@
             android:id="@+id/action_prescriptionFragment_to_consultancyAppointmentsFragment"
             app:destination="@id/consultancyAppointmentsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/mealsFragment"
+        android:name="com.example.bienestarproveedores.meals.MealsFragment"
+        android:label="MealsFragment" />
 </navigation>

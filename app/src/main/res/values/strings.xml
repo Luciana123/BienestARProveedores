@@ -21,6 +21,7 @@
     <string name="meals_order_header">Tu pedido</string>
     <string name="pharmacy_header">Farmacia</string>
     <string name="consultancy_appointments">Turnos pendientes</string>
+    <string name="meals_to_retrieve">Viandas pendientes</string>
     <string name="consultancy_prescriptions">Envío de receta</string>
     <string name="pharmacy_search_hint">Buscar productos de farmacia y más...</string>
 </resources>

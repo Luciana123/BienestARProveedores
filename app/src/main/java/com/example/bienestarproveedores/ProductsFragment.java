@@ -44,8 +44,8 @@ public class ProductsFragment extends Fragment {
     mealsProductLayout.setDescription(getString(R.string.meals));
     mealsProductLayout.setImageResource(R.drawable.ic_main_viands_apple);
     mealsProductLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorMeals));
-    //NavDirections mealsAction = ProductsFragmentDirections.actionProductsFragmentToMealsFragment();
-    //mealsProductLayout.setOnClickListener(Navigation.createNavigateOnClickListener(mealsAction));
+    NavDirections mealsAction = ProductsFragmentDirections.actionProductsFragmentToMealsFragment();
+    mealsProductLayout.setOnClickListener(Navigation.createNavigateOnClickListener(mealsAction));
 
     /* Asistencia. */
     assistanceProductLayout = view.findViewById(R.id.product_assistance);
