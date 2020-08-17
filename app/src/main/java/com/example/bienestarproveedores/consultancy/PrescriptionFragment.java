@@ -33,6 +33,8 @@ public class PrescriptionFragment  extends Fragment {
 
         Button buttonAssist = view.findViewById(R.id.send_prescription);
         NavDirections goToConsultancyMain = PrescriptionFragmentDirections.actionPrescriptionFragmentToConsultancyAppointmentsFragment();
+
+        //TODO armar una función que mande la receta a firebase !!
         buttonAssist.setOnClickListener(Navigation.createNavigateOnClickListener(goToConsultancyMain));
 
     }
