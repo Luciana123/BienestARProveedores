@@ -8,7 +8,11 @@
     <fragment
         android:id="@+id/videoCallFragment"
         android:name="com.example.bienestar.webrtc_demo.VideoCallFragment"
-        android:label="VideoCallFragment" />
+        android:label="VideoCallFragment" >
+        <action
+            android:id="@+id/action_videoCallFragment_to_prescriptionFragment"
+            app:destination="@id/prescriptionFragment" />
+    </fragment>
     <fragment
         android:id="@+id/ProductsFragment"
         android:name="com.example.bienestarproveedores.ProductsFragment"
@@ -25,5 +29,13 @@
         <action
             android:id="@+id/action_consultancyAppointmentsFragment_to_videoCallFragment"
             app:destination="@id/videoCallFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/prescriptionFragment"
+        android:name="com.example.bienestarproveedores.consultancy.PrescriptionFragment"
+        android:label="PrescriptionFragment" >
+        <action
+            android:id="@+id/action_prescriptionFragment_to_consultancyAppointmentsFragment"
+            app:destination="@id/consultancyAppointmentsFragment" />
     </fragment>
 </navigation>

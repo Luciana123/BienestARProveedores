@@ -19,10 +19,10 @@
 
     <TextView
         android:id="@+id/appointment_desc"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="26dip"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+
         android:layout_toRightOf="@id/doctor_pic"
         android:ellipsize="marquee"
         android:text="Description"
@@ -31,15 +31,29 @@
 
     <TextView
         android:id="@+id/doctor_name"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/appointment_desc"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@id/doctor_pic"
         android:gravity="center_vertical"
         android:text="Example application"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/appointment_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:gravity="right"
+        android:textAlignment="gravity"
+        android:layout_toRightOf="@id/doctor_name"
+        android:ellipsize="marquee"
+        android:text="8:30h"
+        android:textSize="30sp"
+        android:singleLine="true" />
+
 
 </RelativeLayout>

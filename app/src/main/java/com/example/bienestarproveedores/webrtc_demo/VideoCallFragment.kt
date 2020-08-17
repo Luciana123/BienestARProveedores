@@ -6,18 +6,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.example.bienestarproveedores.R
+import com.example.bienestarproveedores.consultancy.ConsultancyAppointmentsFragmentDirections
 import io.ktor.util.KtorExperimentalAPI
-import kotlinx.android.synthetic.main.videocall_fragment.call_button
-import kotlinx.android.synthetic.main.videocall_fragment.local_view
-import kotlinx.android.synthetic.main.videocall_fragment.remote_view
-import kotlinx.android.synthetic.main.videocall_fragment.remote_view_loading
+import kotlinx.android.synthetic.main.videocall_fragment.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.webrtc.IceCandidate
 import org.webrtc.MediaStream
@@ -49,6 +49,11 @@ class VideoCallFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkCameraPermission()
+
+        val buttonAssist = view.findViewById<Button>(R.id.siguiente)
+        val backAction = VideoCallFragmentDirections.actionVideoCallFragmentToPrescriptionFragment();
+        buttonAssist.setOnClickListener(Navigation.createNavigateOnClickListener(backAction))
+
     }
 
     private fun checkCameraPermission() {

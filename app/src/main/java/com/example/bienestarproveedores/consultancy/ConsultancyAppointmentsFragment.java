@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,14 +20,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.bienestarproveedores.HeaderLayout;
-import com.example.bienestarproveedores.ProductsFragmentDirections;
 import com.example.bienestarproveedores.R;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConsultancyAppointmentsFragment extends Fragment {
+
+    private static int NO_SELECTION = 100000;
 
     @Nullable
     @Override
@@ -44,6 +46,28 @@ public class ConsultancyAppointmentsFragment extends Fragment {
 
         ConsultancyAppointmentsAdapter adapter = new ConsultancyAppointmentsAdapter();
         orderItemsRecyclerView.setAdapter(adapter);
+
+        Button buttonAssist = view.findViewById(R.id.check_in_button);
+        NavDirections specialistAction = ConsultancyAppointmentsFragmentDirections.actionConsultancyAppointmentsFragmentToVideoCallFragment();
+        buttonAssist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if(adapter.getSelected() != NO_SELECTION) {
+
+                    //TODO acá debería borrarlo con firebase!!!
+                    adapter.viewValues.remove(adapter.getSelected());
+                    adapter.notifyItemRemoved(adapter.getSelected());
+
+                    NavController navController = Navigation.findNavController(view);
+                    navController.navigate(R.id.videoCallFragment);
+
+                }
+
+            }
+        });
+
     }
 
     /**
@@ -51,16 +75,22 @@ public class ConsultancyAppointmentsFragment extends Fragment {
      */
     private static class ConsultancyAppointmentsAdapter extends RecyclerView.Adapter<ConsultancyAppointmentsItemsViewHolder> {
 
-        List<String> appointments = new ArrayList<>();
+        List<Appointment> appointments = new ArrayList<>();
         private List<ConsultancyAppointmentsItemsViewHolder> viewValues = new ArrayList<>();
         AppointmentsProvider appointmentsProvider = new AppointmentsProvider();
 
         ConsultancyAppointmentsAdapter() {
             //TODO hardcodeado por ahora.. un solo doctor.
             //appointmentsProvider.getClientsForDoctor(1);
-            appointments.add("Juan Perez");
-            appointments.add("Fabio Albertario");
-            appointments.add("Juan Ignacio Rotondo");
+
+            Appointment ap1 = new Appointment("doctor1", "3", "Sesión de masaje de pies", "Mark Zuckerberg", "08:00");
+            Appointment ap2 = new Appointment("doctor1", "4", "Vacunación", "Bill Gates", "09:00");
+            Appointment ap3 = new Appointment("doctor1", "5", "Sesión de terapia", "Elon Musk", "20:10");
+            Appointment ap4 = new Appointment("doctor1", "3", "Sesión de masaje de pies", "Mark Zuckerberg", "20:10");
+            appointments.add(ap1);
+            appointments.add(ap2);
+            appointments.add(ap3);
+            appointments.add(ap4);
         }
 
         @NonNull
@@ -73,12 +103,12 @@ public class ConsultancyAppointmentsFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    v.setBackgroundColor(v.getResources().getColor(android.R.color.darker_gray));
+                    v.setBackgroundColor(v.getResources().getColor(android.R.color.holo_blue_light));
 
                     for(ConsultancyAppointmentsItemsViewHolder item: viewValues) {
                         if(item.itemView != v){
                             item.setSelected(false);
-                            item.itemView.setBackgroundColor(v.getResources().getColor(android.R.color.holo_red_dark));
+                            item.itemView.setBackgroundColor(v.getResources().getColor(android.R.color.transparent));
 
                         } else {
                             item.setSelected(true);
@@ -93,14 +123,26 @@ public class ConsultancyAppointmentsFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ConsultancyAppointmentsItemsViewHolder holder, int position) {
             //TODO: set profile picture and description.
-            holder.setName(appointments.get(position));
-            holder.setDescription("Sesión de cardiología.");
+            holder.setName(appointments.get(position).getPatient_name());
+            holder.setDescription(appointments.get(position).getConsultancy_type());
+            holder.setAppointmentTime(appointments.get(position).getAppointment_time());
             viewValues.add(holder);
         }
 
         @Override
         public int getItemCount() {
             return appointments.size();
+        }
+
+        public int getSelected() {
+            int selectedPos = ConsultancyAppointmentsFragment.NO_SELECTION;
+
+            for (ConsultancyAppointmentsItemsViewHolder item : viewValues) {
+                if (item.isSelected()) {
+                    selectedPos = item.getAdapterPosition();
+                }
+            }
+            return selectedPos;
         }
     }
 
@@ -112,6 +154,7 @@ public class ConsultancyAppointmentsFragment extends Fragment {
         private ImageView pic;
         private TextView name;
         private TextView desc;
+        private TextView appointmentTime;
 
         private boolean selected;
 
@@ -120,9 +163,7 @@ public class ConsultancyAppointmentsFragment extends Fragment {
             pic = itemView.findViewById(R.id.doctor_pic);
             name = itemView.findViewById(R.id.doctor_name);
             desc = itemView.findViewById(R.id.appointment_desc);
-
-            //NavDirections specialistAction = ConsultancyAppointmentsFragmentDirections.actionConsultancyAppointmentsFragmentToVideoCallFragment();
-            //itemView.setOnClickListener(Navigation.createNavigateOnClickListener(specialistAction));
+            appointmentTime = itemView.findViewById(R.id.appointment_time);
 
         }
 
@@ -150,5 +191,12 @@ public class ConsultancyAppointmentsFragment extends Fragment {
             desc.setText(description);
         }
 
+        public TextView getAppointmentTime() {
+            return appointmentTime;
+        }
+
+        public void setAppointmentTime(String appointmentTime) {
+            this.appointmentTime.setText(appointmentTime);
+        }
     }
 }

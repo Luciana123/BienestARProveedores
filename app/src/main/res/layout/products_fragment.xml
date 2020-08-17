@@ -11,7 +11,7 @@
         layout="@layout/bienestar_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="100dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +31,7 @@
         app:layout_constraintBottom_toTopOf="@id/product_meals"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_header"
+        app:layout_constraintTop_toBottomOf="@id/bienvenida"
         />
 
     <include
@@ -56,22 +56,20 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="2dp"
-        app:layout_constraintBottom_toTopOf="@id/button_first"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_meals" />
 
-    <ImageView
-        android:id="@+id/button_first"
-        android:layout_width="424dp"
-        android:layout_height="197dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="2dp"
-        android:backgroundTint="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:id="@+id/bienvenida"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="Bienvenido doctor 1"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@id/product_consultancy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/pill5" />
+        app:layout_constraintTop_toBottomOf="@id/fragment_header" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

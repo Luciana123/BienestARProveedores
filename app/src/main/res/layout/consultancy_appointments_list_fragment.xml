@@ -20,16 +20,20 @@
         layout:layout_constraintStart_toStartOf="parent"
         layout:layout_constraintEnd_toEndOf="parent"
         layout:layout_constraintTop_toBottomOf="@+id/fragment_header"
-        layout:layout_constraintBottom_toTopOf="@id/check_in"
+        layout:layout_constraintBottom_toTopOf="@id/check_in_button"
 
         android:layout_height="0dp" />
 
     <Button
-        android:id="@+id/check_in"
+        android:id="@+id/check_in_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="@color/colorConsultancy"
         android:text="Asistir"
+        android:textColor="@android:color/white"
         android:textSize="30sp"
         layout:layout_constraintBottom_toBottomOf="parent"
         layout:layout_constraintEnd_toEndOf="parent"
