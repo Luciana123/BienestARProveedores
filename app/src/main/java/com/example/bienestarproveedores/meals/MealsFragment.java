@@ -13,6 +13,9 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
@@ -24,8 +27,11 @@ import com.example.bienestarproveedores.R;
 import com.example.bienestarproveedores.consultancy.Appointment;
 import com.example.bienestarproveedores.consultancy.AppointmentsProvider;
 import com.example.bienestarproveedores.consultancy.ConsultancyAppointmentsFragmentDirections;
+import com.example.bienestarproveedores.firebase.FirebaseViewModel;
+import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MealsFragment extends Fragment {
@@ -52,6 +58,17 @@ public class MealsFragment extends Fragment {
 
         MealsAdapter adapter = new MealsAdapter(alertDialogBuilder.create());
         orderItemsRecyclerView.setAdapter(adapter);
+
+        FirebaseViewModel firebaseViewModel = new ViewModelProvider(this).get(FirebaseViewModel.class);
+        LiveData<DataSnapshot> appointmentsDataSnapshot = firebaseViewModel
+                .getMealsLiveDataSnapshot();
+
+        appointmentsDataSnapshot.observe(getViewLifecycleOwner(), new Observer<DataSnapshot>() {
+            @Override
+            public void onChanged(DataSnapshot dataSnapshot) {
+                adapter.showAppointment(dataSnapshot.getChildren());
+            }
+        });
 
         Button buttonConfirm = view.findViewById(R.id.confirm);
         buttonConfirm.setOnClickListener(new View.OnClickListener() {
@@ -89,19 +106,27 @@ public class MealsFragment extends Fragment {
 
         MealsAdapter(AlertDialog dialog) {
             this.dialog = dialog;
-            //TODO hardcodeado por ahora.. un solo doctor.
-            //mealsProvider.getMealsFromDB(1);
 
-            Meal m1 = new Meal("Plan de calorías", "Plan de comidas quincenal para adulto operado de riñon.");
-            Meal m2 = new Meal("Plan de 40 caloría", "Plan de 14 días para anciano con huesitis.");
-            Meal m3 = new Meal("Plan con receta", "Plan de comidas de 15 días especial con cronotones");
-            Meal m4 = new Meal("Plan de 70 calorías", "Plan de comida integral para un mes para paciente vegano.");
-            m4.setPrescription("La receta dkfjalkdfjdaskñfj dlskfjasdlñfjñadslfj aslkdfjañlsdkfjña. Amen.");
 
-            meals.add(m1);
-            meals.add(m2);
-            meals.add(m3);
-            meals.add(m4);
+
+        }
+
+        public void showAppointment(Iterable< DataSnapshot > mealsData) {
+            this.meals = new ArrayList<>();
+            for (DataSnapshot appointmentData : mealsData) {
+                HashMap appointmentsDataMap = (HashMap) appointmentData.getValue();
+                String title = (String) appointmentsDataMap.get("title");
+                String patientName = (String) appointmentsDataMap.get("patient_name");
+                String desc = (String) appointmentsDataMap.get("desc");
+                String status = (String) appointmentsDataMap.get("status");
+
+                if(status.equals("pending")){
+                    Meal a = new Meal(title, desc);
+                    this.meals.add(a);
+                }
+            }
+
+            notifyDataSetChanged();
         }
 
         @NonNull

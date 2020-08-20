@@ -4,8 +4,6 @@ public class Meal {
     private String nombre;
     private String descripcion;
 
-    private String prescription;
-
     public Meal(String nombre, String descripcion) {
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -27,11 +25,4 @@ public class Meal {
         this.descripcion = descripcion;
     }
 
-    public String getPrescription() {
-        return prescription;
-    }
-
-    public void setPrescription(String prescription) {
-        this.prescription = prescription;
-    }
 }
