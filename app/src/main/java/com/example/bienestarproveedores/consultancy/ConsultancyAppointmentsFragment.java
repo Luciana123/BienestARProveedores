@@ -12,6 +12,9 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
@@ -21,8 +24,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bienestarproveedores.HeaderLayout;
 import com.example.bienestarproveedores.R;
+import com.example.bienestarproveedores.firebase.FirebaseViewModel;
+import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ConsultancyAppointmentsFragment extends Fragment {
@@ -47,6 +53,18 @@ public class ConsultancyAppointmentsFragment extends Fragment {
         ConsultancyAppointmentsAdapter adapter = new ConsultancyAppointmentsAdapter();
         orderItemsRecyclerView.setAdapter(adapter);
 
+
+        FirebaseViewModel firebaseViewModel = new ViewModelProvider(this).get(FirebaseViewModel.class);
+        LiveData<DataSnapshot> appointmentsDataSnapshot = firebaseViewModel
+                .getAppointmentsDataSnapshot();
+
+        appointmentsDataSnapshot.observe(getViewLifecycleOwner(), new Observer<DataSnapshot>() {
+            @Override
+            public void onChanged(DataSnapshot dataSnapshot) {
+                adapter.showAppointment(dataSnapshot.getChildren());
+            }
+        });
+
         Button buttonAssist = view.findViewById(R.id.check_in_button);
         NavDirections specialistAction = ConsultancyAppointmentsFragmentDirections.actionConsultancyAppointmentsFragmentToVideoCallFragment();
         buttonAssist.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +74,6 @@ public class ConsultancyAppointmentsFragment extends Fragment {
 
                 if(adapter.getSelected() != NO_SELECTION) {
 
-                    //TODO acá debería borrarlo con firebase!!!
                     adapter.viewValues.remove(adapter.getSelected());
                     adapter.notifyItemRemoved(adapter.getSelected());
 
@@ -77,20 +94,22 @@ public class ConsultancyAppointmentsFragment extends Fragment {
 
         List<Appointment> appointments = new ArrayList<>();
         private List<ConsultancyAppointmentsItemsViewHolder> viewValues = new ArrayList<>();
-        AppointmentsProvider appointmentsProvider = new AppointmentsProvider();
 
-        ConsultancyAppointmentsAdapter() {
-            //TODO hardcodeado por ahora.. un solo doctor.
-            //appointmentsProvider.getClientsForDoctor(1);
+        public void showAppointment(Iterable<DataSnapshot> appointmentsData) {
+            this.appointments = new ArrayList<>();
+            for (DataSnapshot appointmentData : appointmentsData) {
+                HashMap appointmentsDataMap = (HashMap) appointmentData.getValue();
+                String date = (String) appointmentsDataMap.get("date");
+                String time = (String) appointmentsDataMap.get("time");
+                String consultancyType = (String) appointmentsDataMap.get("consultancy_type");
+                Long doctorId = (Long) appointmentsDataMap.get("doctor_id");
+                String patientName = (String) appointmentsDataMap.get("patient_name");
 
-            Appointment ap1 = new Appointment("doctor1", "3", "Sesión de masaje de pies", "Mark Zuckerberg", "08:00");
-            Appointment ap2 = new Appointment("doctor1", "4", "Vacunación", "Bill Gates", "09:00");
-            Appointment ap3 = new Appointment("doctor1", "5", "Sesión de terapia", "Elon Musk", "20:10");
-            Appointment ap4 = new Appointment("doctor1", "3", "Sesión de masaje de pies", "Mark Zuckerberg", "20:10");
-            appointments.add(ap1);
-            appointments.add(ap2);
-            appointments.add(ap3);
-            appointments.add(ap4);
+                Appointment a = new Appointment(doctorId.toString(), patientName, consultancyType, patientName, time);
+                this.appointments.add(a);
+            }
+
+            notifyDataSetChanged();
         }
 
         @NonNull
