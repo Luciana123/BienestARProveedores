@@ -3,12 +3,11 @@
 
     <item
         android:drawable="@color/cardview_light_background"/>
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/ic_splash_screen_logo"
-            android:layout_width="fill_parent"
-            android:scaleType="fitXY"/>
+    <item
+        android:height="140dp"
+        android:width="140dp"
+        android:drawable="@drawable/ic_logo_bienestar_corazon"
+        android:gravity="center">
     </item>
 
 </layer-list>
