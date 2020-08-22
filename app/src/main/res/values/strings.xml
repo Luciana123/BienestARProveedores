@@ -28,4 +28,6 @@
     <string name="bienvenido_doctor_1">Bienvenido doctor 1</string>
     <string name="bienestar">BienestAR</string>
     <string name="proveedores">Proveedores</string>
+
+    <string name="sharedPreferences">SharedPref</string>
 </resources>

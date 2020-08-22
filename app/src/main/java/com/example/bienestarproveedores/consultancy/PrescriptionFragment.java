@@ -1,5 +1,7 @@
 package com.example.bienestarproveedores.consultancy;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class PrescriptionFragment  extends Fragment {
@@ -54,8 +59,6 @@ public class PrescriptionFragment  extends Fragment {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("Prescriptions");
 
-
-        //TODO armar una función que mande la receta a firebase !!
         buttonAssist.setOnClickListener(Navigation.createNavigateOnClickListener(goToConsultancyMain));
 
         buttonAssist.setOnClickListener(new View.OnClickListener() {
@@ -63,14 +66,28 @@ public class PrescriptionFragment  extends Fragment {
             public void onClick(View v) {
 
                 EditText prescription = view.findViewById(R.id.prescription);
-                ref.child("receta-"+UUID.randomUUID().toString()).setValue(prescription.getText().toString());
+
+                String prescriptionId = "receta-"+UUID.randomUUID().toString();
+
+                ref.child(prescriptionId).child("date").setValue(LocalDate.now().toString());
+                ref.child(prescriptionId).child("prescription").setValue(prescription.getText().toString());
+                ref.child(prescriptionId).child("client_id").setValue(getClientIdFromSharedPreferences());
+                ref.child(prescriptionId).child("medic_id").setValue("1");
+                ref.child(prescriptionId).child("medic_name").setValue("Alberto Albertario");
 
                 NavController navController = Navigation.findNavController(view);
                 navController.navigate(R.id.consultancyAppointmentsFragment);
 
             }
         });
-
     }
+
+    public String getClientIdFromSharedPreferences(){
+        Context context = getActivity();
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                getString(R.string.sharedPreferences), Context.MODE_PRIVATE);
+        return sharedPref.getString("patient_id", "1");
+    }
+
 
 }

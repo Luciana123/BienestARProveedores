@@ -1,11 +1,11 @@
 package com.example.bienestarproveedores.consultancy;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,10 +29,13 @@ import com.example.bienestarproveedores.HeaderLayout;
 import com.example.bienestarproveedores.R;
 import com.example.bienestarproveedores.firebase.FirebaseViewModel;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class ConsultancyAppointmentsFragment extends Fragment {
 
@@ -78,10 +81,16 @@ public class ConsultancyAppointmentsFragment extends Fragment {
             public void onClick(View v) {
 
 
-                if(adapter.getSelected() != NO_SELECTION) {
+                int selectedPostion = adapter.getSelected();
+                if(selectedPostion != NO_SELECTION) {
 
-                    adapter.viewValues.remove(adapter.getSelected());
-                    adapter.notifyItemRemoved(adapter.getSelected());
+                    adapter.viewValues.remove(selectedPostion);
+                    adapter.notifyItemRemoved(selectedPostion);
+
+                    Appointment a = adapter.appointments.get(selectedPostion);
+
+                    deleteFromFirebase(a);
+                    putInSharedPreferences(a);
 
                     NavController navController = Navigation.findNavController(view);
                     navController.navigate(R.id.videoCallFragment);
@@ -90,6 +99,26 @@ public class ConsultancyAppointmentsFragment extends Fragment {
 
             }
         });
+
+
+
+    }
+
+    private void deleteFromFirebase(Appointment a){
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("Appointments");
+        //todo descomentar esto!!!! es para que no me borre los turnos cuando pruebo y los tenga que ir a agregar de vuelta
+        //ref.child(a.getAppointmentId()).removeValue();
+    }
+
+    private void putInSharedPreferences(Appointment a){
+        Context context = getActivity();
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                getString(R.string.sharedPreferences), Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("patient_id", a.getPatientId().toString());
+        editor.commit();
 
     }
 
@@ -108,10 +137,12 @@ public class ConsultancyAppointmentsFragment extends Fragment {
                 String date = (String) appointmentsDataMap.get("date");
                 String time = (String) appointmentsDataMap.get("time");
                 String consultancyType = (String) appointmentsDataMap.get("consultancy_type");
-                Long doctorId = (Long) appointmentsDataMap.get("doctor_id");
+                String doctorId = (String) appointmentsDataMap.get("doctor_id");
                 String patientName = (String) appointmentsDataMap.get("patient_name");
+                String patientId = (String) appointmentsDataMap.get("patient_id");
 
-                Appointment a = new Appointment(doctorId.toString(), patientName, consultancyType, patientName, time);
+                assert doctorId != null;
+                Appointment a = new Appointment(doctorId, patientId, consultancyType, patientName, time, appointmentData.getKey());
                 this.appointments.add(a);
             }
 
@@ -141,9 +172,9 @@ public class ConsultancyAppointmentsFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ConsultancyAppointmentsItemsViewHolder holder, int position) {
             //TODO: set profile picture and description.
-            holder.setName(appointments.get(position).getPatient_name());
-            holder.setDescription(appointments.get(position).getConsultancy_type());
-            holder.setAppointmentTime(appointments.get(position).getAppointment_time());
+            holder.setName(appointments.get(position).getPatientName());
+            holder.setDescription(appointments.get(position).getConsultancyType());
+            holder.setAppointmentTime(appointments.get(position).getAppointmentTime());
             viewValues.add(holder);
         }
 
