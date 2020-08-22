@@ -15,6 +15,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/appointments_recyclerview"
+        android:background="#D6D6D6"
         android:layout_width="match_parent"
         android:layout_marginTop="8dp"
         layout:layout_constraintStart_toStartOf="parent"
@@ -32,7 +33,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginBottom="30dp"
         android:backgroundTint="@color/colorConsultancy"
-        android:text="Asistir"
+        android:text="@string/asistir"
         android:textColor="@android:color/white"
         android:textSize="30sp"
         layout:layout_constraintBottom_toBottomOf="parent"

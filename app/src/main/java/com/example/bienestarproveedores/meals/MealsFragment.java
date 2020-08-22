@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -52,6 +53,9 @@ public class MealsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         HeaderLayout header = view.findViewById(R.id.fragment_header);
         header.setDescription(getString(R.string.meals_to_retrieve));
+        header.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorMeals));
+
+        getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(), R.color.colorMealsB));
 
         RecyclerView orderItemsRecyclerView = view.findViewById(R.id.meals_recyclerview);
         orderItemsRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -132,23 +136,17 @@ public class MealsFragment extends Fragment {
         @NonNull
         @Override
         public MealItemsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.meal_pending_item,
+                    parent, false);
 
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.meal_pending_item, parent, false);
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    v.setBackgroundColor(v.getResources().getColor(android.R.color.holo_green_light));
-
-                    for(MealItemsViewHolder item: viewValues) {
-                        if(item.itemView != v){
-                            item.setSelected(false);
-                            item.itemView.setBackgroundColor(v.getResources().getColor(android.R.color.transparent));
-
-                        } else {
-                            item.setSelected(true);
-                        }
+            view.setOnClickListener(v -> {
+                v.setBackgroundColor(v.getResources().getColor(R.color.colorMealsSelected));
+                for(MealItemsViewHolder item: viewValues) {
+                    if(item.itemView != v){
+                        item.setSelected(false);
+                        item.itemView .setBackgroundColor(item.itemView .getResources().getColor(R.color.colorWhite));
+                    } else {
+                        item.setSelected(true);
                     }
                 }
             });

@@ -27,7 +27,7 @@ public class HeaderLayout extends ConstraintLayout {
   @Override
   protected void onFinishInflate() {
     super.onFinishInflate();
-    headerImageView = findViewById(R.id.imageView);
+    headerImageView = findViewById(R.id.bienestarPLogo);
     headerTextView = findViewById(R.id.textView);
   }
 

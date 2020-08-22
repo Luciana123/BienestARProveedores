@@ -31,10 +31,14 @@ public class ProductsFragment extends Fragment {
     ProductLayout consultancyProductLayout;
     ProductLayout pharmacyProductLayout;
 
+    getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getContext(), R.color.common_google_signin_btn_text_light_focused));
+    getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(), R.color.common_google_signin_btn_text_light_focused));
+
     /* Consultorio médico. */
     consultancyProductLayout = view.findViewById(R.id.product_consultancy);
     consultancyProductLayout.setDescription(getString(R.string.consultancy));
     consultancyProductLayout.setImageResource(R.drawable.ic_main_medic);
+    consultancyProductLayout.setBackgroundResource(R.drawable.rounded);
     consultancyProductLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorConsultancy));
     NavDirections consultancyAction = ProductsFragmentDirections.actionProductsFragmentToConsultancyAppointmentsFragment2();
     consultancyProductLayout.setOnClickListener(Navigation.createNavigateOnClickListener(consultancyAction));
@@ -43,6 +47,7 @@ public class ProductsFragment extends Fragment {
     mealsProductLayout = view.findViewById(R.id.product_meals);
     mealsProductLayout.setDescription(getString(R.string.meals));
     mealsProductLayout.setImageResource(R.drawable.ic_main_viands_apple);
+    mealsProductLayout.setBackgroundResource(R.drawable.rounded);
     mealsProductLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorMeals));
     NavDirections mealsAction = ProductsFragmentDirections.actionProductsFragmentToMealsFragment();
     mealsProductLayout.setOnClickListener(Navigation.createNavigateOnClickListener(mealsAction));
@@ -50,6 +55,7 @@ public class ProductsFragment extends Fragment {
     /* Asistencia. */
     assistanceProductLayout = view.findViewById(R.id.product_assistance);
     assistanceProductLayout.setDescription(getString(R.string.assistance));
+    assistanceProductLayout.setBackgroundResource(R.drawable.rounded);
     assistanceProductLayout.setImageResource(R.drawable.ic_main_assist_hand);
     assistanceProductLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorAssistance));
     //NavDirections assistanceAction = ProductsFragmentDirections.actionProductsFragmentToAssistanceFragment();

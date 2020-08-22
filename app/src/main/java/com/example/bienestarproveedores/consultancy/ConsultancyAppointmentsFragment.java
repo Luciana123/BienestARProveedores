@@ -1,9 +1,11 @@
 package com.example.bienestarproveedores.consultancy;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -45,14 +48,17 @@ public class ConsultancyAppointmentsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         HeaderLayout header = view.findViewById(R.id.fragment_header);
+        ImageView icon = view.findViewById(R.id.bienestarPLogo);
         header.setDescription(getString(R.string.consultancy_appointments));
+        header.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorConsultancy));
+
+        getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(), R.color.colorConsultancyB));
 
         RecyclerView orderItemsRecyclerView = view.findViewById(R.id.appointments_recyclerview);
         orderItemsRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         ConsultancyAppointmentsAdapter adapter = new ConsultancyAppointmentsAdapter();
         orderItemsRecyclerView.setAdapter(adapter);
-
 
         FirebaseViewModel firebaseViewModel = new ViewModelProvider(this).get(FirebaseViewModel.class);
         LiveData<DataSnapshot> appointmentsDataSnapshot = firebaseViewModel
@@ -115,23 +121,16 @@ public class ConsultancyAppointmentsFragment extends Fragment {
         @NonNull
         @Override
         public ConsultancyAppointmentsItemsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.consultancy_appointment_item, parent, false);
 
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    v.setBackgroundColor(v.getResources().getColor(android.R.color.holo_red_light));
-
-                    for(ConsultancyAppointmentsItemsViewHolder item: viewValues) {
-                        if(item.itemView != v){
-                            item.setSelected(false);
-                            item.itemView.setBackgroundColor(v.getResources().getColor(android.R.color.transparent));
-
-                        } else {
-                            item.setSelected(true);
-                        }
+            view.setOnClickListener(v -> {
+                v.setBackgroundColor(v.getResources().getColor(R.color.colorConsultancySelected));
+                for(ConsultancyAppointmentsItemsViewHolder item: viewValues) {
+                    if(item.itemView != v){
+                        item.setSelected(false);
+                        item.itemView.setBackgroundColor(item.itemView.getResources().getColor(R.color.colorWhite));
+                    } else {
+                        item.setSelected(true);
                     }
                 }
             });

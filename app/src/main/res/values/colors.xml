@@ -9,5 +9,11 @@
     <color name="colorAssistance">#1F6E68</color>
     <color name="colorMeals">#007032</color>
     <color name="colorConsultancy">#A02C2C</color>
+    <color name="colorAssistanceB">#164340</color>
+    <color name="colorMealsB">#003518</color>
+    <color name="colorConsultancyB">#4A1515</color>
+    <color name="colorAssistanceSelected">#401F6E68</color>
+    <color name="colorMealsSelected">#40007032</color>
+    <color name="colorConsultancySelected">#40A02C2C</color>
 
 </resources>

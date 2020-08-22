@@ -5,37 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="4dp"
-    android:background="@color/colorPrimary"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:padding="10dp">
 
                 <ImageView
                     android:id="@+id/product_image"
-                    android:layout_width="79dp"
-                    android:layout_height="79dp"
+                    android:layout_width="60dp"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="28dp"
                     android:contentDescription="@string/default_image_product_description"
                     android:src="@drawable/ic_assist_126px"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/product_description"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                     />
+                    app:layout_constraintVertical_bias="0.85" />
 
                 <TextView
                     android:id="@+id/product_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="128dp"
                     android:text="@string/default_product_description"
                     android:textColor="@color/colorWhite"
                     android:textSize="30sp"
                     app:layout_constraintBottom_toBottomOf="@+id/product_image"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/product_image"
-                    app:layout_constraintTop_toTopOf="@+id/product_image" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/product_image"
+                    app:layout_constraintVertical_bias="0.538" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

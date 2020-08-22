@@ -24,4 +24,8 @@
     <string name="meals_to_retrieve">Viandas pendientes</string>
     <string name="consultancy_prescriptions">Envío de receta</string>
     <string name="pharmacy_search_hint">Buscar productos de farmacia y más...</string>
+    <string name="asistir">Asistir</string>
+    <string name="bienvenido_doctor_1">Bienvenido doctor 1</string>
+    <string name="bienestar">BienestAR</string>
+    <string name="proveedores">Proveedores</string>
 </resources>

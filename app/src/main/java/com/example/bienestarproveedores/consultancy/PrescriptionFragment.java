@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
@@ -38,6 +39,9 @@ public class PrescriptionFragment  extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         HeaderLayout header = view.findViewById(R.id.fragment_header);
         header.setDescription(getString(R.string.consultancy_prescriptions));
+        header.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorConsultancy));
+
+        getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(), R.color.colorConsultancyB));
 
         Button buttonAssist = view.findViewById(R.id.send_prescription);
         NavDirections goToConsultancyMain = PrescriptionFragmentDirections.actionPrescriptionFragmentToConsultancyAppointmentsFragment();
