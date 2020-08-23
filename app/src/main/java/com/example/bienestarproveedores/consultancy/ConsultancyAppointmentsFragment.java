@@ -42,6 +42,9 @@ public class ConsultancyAppointmentsFragment extends Fragment {
 
     private static int NO_SELECTION = 100000;
 
+    private SharedPreferences sharedPref;
+    private int userId;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,12 +59,18 @@ public class ConsultancyAppointmentsFragment extends Fragment {
         header.setDescription(getString(R.string.consultancy_appointments));
         header.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorConsultancy));
 
+        sharedPref = getContext().getSharedPreferences(
+                getString(R.string.shared_preferences_file), Context.MODE_PRIVATE);
+
+        userId = sharedPref
+                .getInt("id", new Integer(0));
+
         getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(), R.color.colorConsultancyB));
 
         RecyclerView orderItemsRecyclerView = view.findViewById(R.id.appointments_recyclerview);
         orderItemsRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        ConsultancyAppointmentsAdapter adapter = new ConsultancyAppointmentsAdapter();
+        ConsultancyAppointmentsAdapter adapter = new ConsultancyAppointmentsAdapter(String.valueOf(this.userId));
         orderItemsRecyclerView.setAdapter(adapter);
 
         FirebaseViewModel firebaseViewModel = new ViewModelProvider(this).get(FirebaseViewModel.class);
@@ -109,8 +118,7 @@ public class ConsultancyAppointmentsFragment extends Fragment {
     private void deleteFromFirebase(Appointment a){
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("Appointments");
-        //todo descomentar esto!!!! es para que no me borre los turnos cuando pruebo y los tenga que ir a agregar de vuelta
-        //ref.child(a.getAppointmentId()).removeValue();
+        ref.child(a.getAppointmentId()).removeValue();
     }
 
     private void overrideBackButton(View view){
@@ -150,6 +158,12 @@ public class ConsultancyAppointmentsFragment extends Fragment {
 
         List<Appointment> appointments = new ArrayList<>();
         private List<ConsultancyAppointmentsItemsViewHolder> viewValues = new ArrayList<>();
+        private String userId;
+
+        public ConsultancyAppointmentsAdapter(String userId){
+            this.userId = userId;
+
+        }
 
         public void showAppointment(Iterable<DataSnapshot> appointmentsData) {
             this.appointments = new ArrayList<>();
@@ -164,7 +178,10 @@ public class ConsultancyAppointmentsFragment extends Fragment {
 
                 assert doctorId != null;
                 Appointment a = new Appointment(doctorId, patientId, consultancyType, patientName, time, appointmentData.getKey());
-                this.appointments.add(a);
+                if(a.getDoctorId().equals(userId)){
+                    this.appointments.add(a);
+                }
+
             }
 
             notifyDataSetChanged();

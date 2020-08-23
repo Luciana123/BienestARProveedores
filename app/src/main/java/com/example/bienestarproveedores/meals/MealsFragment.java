@@ -1,6 +1,8 @@
 package com.example.bienestarproveedores.meals;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +34,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static org.webrtc.ContextUtils.getApplicationContext;
+
 public class MealsFragment extends Fragment {
+
+    private SharedPreferences sharedPref;
+    private int userId;
 
     private static int NO_SELECTION = 100000;
 
@@ -47,6 +54,12 @@ public class MealsFragment extends Fragment {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.getActivity());
 
+        sharedPref = getContext().getSharedPreferences(
+                getString(R.string.shared_preferences_file), Context.MODE_PRIVATE);
+
+        userId= sharedPref
+                .getInt("id", new Integer(0));
+
         super.onViewCreated(view, savedInstanceState);
         HeaderLayout header = view.findViewById(R.id.fragment_header);
         header.setDescription(getString(R.string.meals_to_retrieve));
@@ -57,7 +70,7 @@ public class MealsFragment extends Fragment {
         RecyclerView orderItemsRecyclerView = view.findViewById(R.id.meals_recyclerview);
         orderItemsRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        MealsAdapter adapter = new MealsAdapter(alertDialogBuilder.create());
+        MealsAdapter adapter = new MealsAdapter(alertDialogBuilder.create(), String.valueOf(this.userId));
         orderItemsRecyclerView.setAdapter(adapter);
 
         FirebaseViewModel firebaseViewModel = new ViewModelProvider(this).get(FirebaseViewModel.class);
@@ -100,7 +113,6 @@ public class MealsFragment extends Fragment {
     private void modifyStatusFirebase(Meal meal){
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("Meals");
-        //todo descomentar esto!!!! es para que no me borre los turnos cuando pruebo y los tenga que ir a agregar de vuelta
         ref.child(meal.getId()).child("status").setValue("confirmed");
     }
 
@@ -109,16 +121,15 @@ public class MealsFragment extends Fragment {
      */
     private static class MealsAdapter extends RecyclerView.Adapter<MealItemsViewHolder> {
 
+        String userId;
+
         List<Meal> meals = new ArrayList<>();
         private List<MealItemsViewHolder> viewValues = new ArrayList<>();
-        MealsProvider appointmentsProvider = new MealsProvider();
-
         private AlertDialog dialog;
 
-        MealsAdapter(AlertDialog dialog) {
+        MealsAdapter(AlertDialog dialog, String userId) {
+            this.userId = userId;
             this.dialog = dialog;
-
-
 
         }
 
@@ -130,8 +141,9 @@ public class MealsFragment extends Fragment {
                 String patientName = (String) appointmentsDataMap.get("patient_name");
                 String desc = (String) appointmentsDataMap.get("desc");
                 String status = (String) appointmentsDataMap.get("status");
+                String doctorId = (String) appointmentsDataMap.get("doctor_id");
 
-                if(status.equals("pending")){
+                if(status.equals("pending") && this.userId.equals(doctorId)){
                     Meal a = new Meal(mealData.getKey(), title, desc);
                     this.meals.add(a);
                 }
