@@ -3,10 +3,16 @@ package com.example.bienestarproveedores;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.bienestarproveedores.data.LoginDataSource;
 import com.example.bienestarproveedores.ui.login.LoginActivity;
+import com.example.bienestarproveedores.ui.login.Provider;
+import com.example.bienestarproveedores.ui.login.ProviderType;
+
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        providersSetUp();
 
         String username = getApplicationContext()
                 .getSharedPreferences(getString(R.string.shared_preferences_file), this.MODE_PRIVATE)
@@ -26,6 +34,19 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
+    }
+
+    private void providersSetUp() {
+        HashMap<String, Provider> providers = new HashMap<>();
+
+        providers.put("bienestar", new Provider("bienestar", "bienestar", ProviderType.Medic));
+        providers.put("felix", new Provider("felix", "bienestar", ProviderType.Medic));
+        providers.put("bautista", new Provider("bautista", "bienestar", ProviderType.Meals));
+        providers.put("santiago", new Provider("santiago", "bienestar", ProviderType.Assistance));
+        providers.put("luciana", new Provider("bienestar", "bienestar", ProviderType.Medic));
+        providers.put("darius", new Provider("bienestar", "bienestar", ProviderType.Medic));
+
+        LoginDataSource.setProviders(providers);
     }
 
     @Override
@@ -49,4 +70,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

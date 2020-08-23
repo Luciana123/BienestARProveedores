@@ -51,19 +51,6 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
-        // Setup providers
-        LoginDataSource data = new LoginDataSource();
-        HashMap<String, Provider> providers = new HashMap<>();
-
-        providers.put("bienestar", new Provider("bienestar", "bienestar", ProviderType.Medic));
-        providers.put("felix", new Provider("felix", "bienestar", ProviderType.Medic));
-        providers.put("bautista", new Provider("bautista", "bienestar", ProviderType.Meals));
-        providers.put("santiago", new Provider("santiago", "bienestar", ProviderType.Assistance));
-        providers.put("luciana", new Provider("bienestar", "bienestar", ProviderType.Medic));
-        providers.put("darius", new Provider("bienestar", "bienestar", ProviderType.Medic));
-
-        data.setProviders(providers);
-
         loadingProgressBar.setVisibility(View.GONE);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {

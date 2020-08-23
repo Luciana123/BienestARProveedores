@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
@@ -50,7 +51,7 @@ class VideoCallFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         checkCameraPermission()
 
-        val buttonAssist = view.findViewById<Button>(R.id.siguiente)
+        val buttonAssist = view.findViewById<AppCompatImageButton>(R.id.siguiente)
         val backAction = VideoCallFragmentDirections.actionVideoCallFragmentToPrescriptionFragment();
         buttonAssist.setOnClickListener(Navigation.createNavigateOnClickListener(backAction))
 

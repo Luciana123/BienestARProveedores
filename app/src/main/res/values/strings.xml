@@ -37,4 +37,10 @@
     <string name="login_failed">"Login failed"</string>
     <string name="preference_file_key">BIENESTAR</string>
     <string name="shared_preferences_file">Bienestar</string>
+    <string name="username">Username</string>
+    <string name="sing_in">SING IN</string>
+    <string name="sing_up">SING UP</string>
+    <string name="todo">TODO</string>
+    <string name="bienestar_providers">BienestAR Providers</string>
+    <string name="textview">TextView</string>
 </resources>

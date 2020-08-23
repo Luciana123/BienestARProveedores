@@ -1,9 +1,11 @@
 package com.example.bienestarproveedores;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,6 +13,10 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+
+import com.example.bienestarproveedores.data.LoginDataSource;
+import com.example.bienestarproveedores.ui.login.Provider;
+import com.example.bienestarproveedores.ui.login.ProviderType;
 
 
 public class ProductsFragment extends Fragment {
@@ -30,9 +36,16 @@ public class ProductsFragment extends Fragment {
     ProductLayout assistanceProductLayout;
     ProductLayout consultancyProductLayout;
     ProductLayout pharmacyProductLayout;
+    TextView welcomeMsj;
+    String username = getContext()
+            .getSharedPreferences(getString(R.string.shared_preferences_file), getContext().MODE_PRIVATE)
+            .getString("username", "");
+
 
     getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getContext(), R.color.common_google_signin_btn_text_light_focused));
     getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(), R.color.common_google_signin_btn_text_light_focused));
+
+    welcomeMsj = view.findViewById(R.id.bienvenida);
 
     /* Consultorio médico. */
     consultancyProductLayout = view.findViewById(R.id.product_consultancy);
@@ -61,6 +74,24 @@ public class ProductsFragment extends Fragment {
     //NavDirections assistanceAction = ProductsFragmentDirections.actionProductsFragmentToAssistanceFragment();
     //assistanceProductLayout.setOnClickListener(Navigation.createNavigateOnClickListener(assistanceAction));
 
+    if (username.isEmpty()) return;
+    Log.d("ASASDASDK", username);
+    welcomeMsj.setText("Welcome " + username);
+    Provider provider = LoginDataSource.getProvider(username);
 
+    if (username.equals("bienestar")) return;
+
+    if (provider.getType() == ProviderType.Medic) {
+      assistanceProductLayout.setVisibility(View.GONE);
+      mealsProductLayout.setVisibility(View.GONE);
+    }
+    if (provider.getType() == ProviderType.Assistance) {
+      consultancyProductLayout.setVisibility(View.GONE);
+      mealsProductLayout.setVisibility(View.GONE);
+    }
+    if (provider.getType() == ProviderType.Meals) {
+      assistanceProductLayout.setVisibility(View.GONE);
+      consultancyProductLayout.setVisibility(View.GONE);
+    }
   }
 }
