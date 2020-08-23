@@ -5,13 +5,15 @@ public class Provider {
     private String username;
     private ProviderType type;
     private String pass;
+    private String name;
     private int id;
 
-    public Provider( String username, String pass, ProviderType type) {
+    public Provider(String name, String username, String pass, ProviderType type) {
         this.id = idNumber++;
         this.username = username;
         this.pass = pass;
         this.type = type;
+        this.name = name;
     }
 
     public int getId() {
@@ -29,4 +31,6 @@ public class Provider {
     public ProviderType getType() {
         return type;
     }
+
+    public String getName() { return name; }
 }

@@ -135,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                 ).edit();
                 preferences.putInt("id", result.getSuccess().getId());
                 preferences.putString("username", result.getSuccess().getUsername());
+                preferences.putString("name", result.getSuccess().getName());
                 preferences.apply();
             }
         });

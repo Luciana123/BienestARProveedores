@@ -39,12 +39,14 @@ public class MainActivity extends AppCompatActivity {
     private void providersSetUp() {
         HashMap<String, Provider> providers = new HashMap<>();
 
-        providers.put("bienestar", new Provider("bienestar", "bienestar", ProviderType.Medic));
-        providers.put("felix", new Provider("felix", "bienestar", ProviderType.Medic));
-        providers.put("bautista", new Provider("bautista", "bienestar", ProviderType.Meals));
-        providers.put("santiago", new Provider("santiago", "bienestar", ProviderType.Assistance));
-        providers.put("luciana", new Provider("bienestar", "bienestar", ProviderType.Medic));
-        providers.put("darius", new Provider("bienestar", "bienestar", ProviderType.Medic));
+        providers.put("bienestar", new Provider("Juan Carlos Rodriguez","jcrodriguez",
+                "bienestar", ProviderType.Medic));
+        providers.put("felix", new Provider("Joao Felix", "felix", "bienestar",
+                ProviderType.Medic));
+        providers.put("bautista", new Provider("Bautista Cristophe", "bautista",
+                "bienestar", ProviderType.Meals));
+        providers.put("santiago", new Provider("Santiago Gonzales", "santiago",
+                "bienestar", ProviderType.Assistance));
 
         LoginDataSource.setProviders(providers);
     }

@@ -25,7 +25,7 @@
     <string name="bienvenido_doctor_1">Bienvenido doctor 1</string>
     <string name="bienestar">BienestAR</string>
     <string name="proveedores">Proveedores</string>
-    <string name="sharedPreferences">SharedPref</string>
+    <string name="sharedPreferences">Bienestar</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>

@@ -75,7 +75,7 @@ public class ProductsFragment extends Fragment {
     //assistanceProductLayout.setOnClickListener(Navigation.createNavigateOnClickListener(assistanceAction));
 
     if (username.isEmpty()) return;
-    Log.d("ASASDASDK", username);
+
     welcomeMsj.setText("Welcome " + username);
     Provider provider = LoginDataSource.getProvider(username);
 

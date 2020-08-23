@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class PrescriptionFragment extends Fragment {
+    private SharedPreferences sharedPref;
 
     @Nullable
     @Override
@@ -46,6 +47,10 @@ public class PrescriptionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         HeaderLayout header = view.findViewById(R.id.fragment_header);
+
+        sharedPref = getContext().getSharedPreferences(
+                getString(R.string.shared_preferences_file), Context.MODE_PRIVATE);
+
         header.setDescription(getString(R.string.consultancy_prescriptions));
         header.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorConsultancy));
 
@@ -89,9 +94,9 @@ public class PrescriptionFragment extends Fragment {
 
                 ref.child(prescriptionId).child("date").setValue(LocalDate.now().toString());
                 ref.child(prescriptionId).child("prescription").setValue(prescription.getText().toString());
-                ref.child(prescriptionId).child("client_id").setValue(getClientIdFromSharedPreferences());
-                ref.child(prescriptionId).child("medic_id").setValue("1");
-                ref.child(prescriptionId).child("medic_name").setValue("Alberto Albertario");
+                ref.child(prescriptionId).child("client_id").setValue(sharedPref.getString("patient_id", "1"));
+                ref.child(prescriptionId).child("medic_id").setValue(sharedPref.getString("id", "1"));
+                ref.child(prescriptionId).child("medic_name").setValue(sharedPref.getString("name", ""));
 
                 NavController navController = Navigation.findNavController(view);
                 navController.navigate(R.id.consultancyAppointmentsFragment);
@@ -99,13 +104,4 @@ public class PrescriptionFragment extends Fragment {
             }
         });
     }
-
-    public String getClientIdFromSharedPreferences() {
-        Context context = getActivity();
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                getString(R.string.sharedPreferences), Context.MODE_PRIVATE);
-        return sharedPref.getString("patient_id", "1");
-    }
-
-
 }
