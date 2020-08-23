@@ -43,4 +43,6 @@
     <string name="todo">TODO</string>
     <string name="bienestar_providers">BienestAR Providers</string>
     <string name="textview">TextView</string>
+    <string name="escriba_aqu_la_receta_para_el_paciente">Escriba aquí la receta para el paciente</string>
+    <string name="enviar">ENVIAR</string>
 </resources>
