@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         providers.put("santiago", new Provider("Santiago Gonzales", "Asistente Santiago",
                 "bienestar", ProviderType.Assistance));
         providers.put("luciana", new Provider("Luciana Fernandez", "luciana",
-                "bienestar", ProviderType.Medic));
+                "bienestar", ProviderType.Meals));
 
         LoginDataSource.setProviders(providers);
     }
