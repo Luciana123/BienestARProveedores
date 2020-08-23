@@ -1,15 +1,10 @@
 package com.example.bienestarproveedores;
 
+import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
+import com.example.bienestarproveedores.ui.login.LoginActivity;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.View;
-
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -19,6 +14,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String username = getApplicationContext()
+                .getSharedPreferences(getString(R.string.shared_preferences_file), this.MODE_PRIVATE)
+                .getString("username", "");
+
+        // go straight to main if a username is stored
+        if (username.isEmpty()) {
+            Intent activityIntent = new Intent(this, LoginActivity.class);
+            startActivity(activityIntent);
+            finish();
+        }
+
     }
 
     @Override

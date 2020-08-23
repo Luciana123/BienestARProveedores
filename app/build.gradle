@@ -39,6 +39,9 @@ android {
 apply plugin: "androidx.navigation.safeargs"
 
 dependencies {
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     def nav_version = "2.3.0"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
