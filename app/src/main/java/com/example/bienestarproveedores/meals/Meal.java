@@ -1,10 +1,12 @@
 package com.example.bienestarproveedores.meals;
 
 public class Meal {
+    private String id;
     private String nombre;
     private String descripcion;
 
-    public Meal(String nombre, String descripcion) {
+    public Meal(String id, String nombre, String descripcion) {
+        this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
@@ -25,4 +27,11 @@ public class Meal {
         this.descripcion = descripcion;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

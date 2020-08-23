@@ -3,12 +3,14 @@ package com.example.bienestarproveedores.consultancy;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -20,6 +22,7 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.example.bienestarproveedores.HeaderLayout;
+import com.example.bienestarproveedores.ProductsFragmentDirections;
 import com.example.bienestarproveedores.R;
 import com.example.bienestarproveedores.firebase.FirebaseViewModel;
 import com.google.firebase.database.DataSnapshot;
@@ -31,13 +34,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class PrescriptionFragment  extends Fragment {
+public class PrescriptionFragment extends Fragment {
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.consultancy_prescription_fragment, container, false);
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -55,6 +60,21 @@ public class PrescriptionFragment  extends Fragment {
         LiveData<DataSnapshot> appointmentsDataSnapshot = firebaseViewModel
                 .getAppointmentsDataSnapshot();
 
+        //Tiro esto por acá para overraidee el botón de atrás y no vuelva a la videollamada
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+                                  @Override
+                                  public boolean onKey(View v, int keyCode, KeyEvent event) {
+                                      if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                          NavController navController = Navigation.findNavController(view);
+                                          navController.navigate(R.id.consultancyAppointmentsFragment);
+                                          return true;
+                                      }
+                                      return false;
+                                  }
+                              }
+        );
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("Prescriptions");
@@ -67,7 +87,7 @@ public class PrescriptionFragment  extends Fragment {
 
                 EditText prescription = view.findViewById(R.id.prescription);
 
-                String prescriptionId = "receta-"+UUID.randomUUID().toString();
+                String prescriptionId = "receta-" + UUID.randomUUID().toString();
 
                 ref.child(prescriptionId).child("date").setValue(LocalDate.now().toString());
                 ref.child(prescriptionId).child("prescription").setValue(prescription.getText().toString());
@@ -82,7 +102,7 @@ public class PrescriptionFragment  extends Fragment {
         });
     }
 
-    public String getClientIdFromSharedPreferences(){
+    public String getClientIdFromSharedPreferences() {
         Context context = getActivity();
         SharedPreferences sharedPref = context.getSharedPreferences(
                 getString(R.string.sharedPreferences), Context.MODE_PRIVATE);

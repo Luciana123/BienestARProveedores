@@ -3,6 +3,7 @@ package com.example.bienestarproveedores.consultancy;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +68,9 @@ public class ConsultancyAppointmentsFragment extends Fragment {
         LiveData<DataSnapshot> appointmentsDataSnapshot = firebaseViewModel
                 .getAppointmentsDataSnapshot();
 
+        overrideBackButton(view);
+
+
         appointmentsDataSnapshot.observe(getViewLifecycleOwner(), new Observer<DataSnapshot>() {
             @Override
             public void onChanged(DataSnapshot dataSnapshot) {
@@ -100,8 +104,6 @@ public class ConsultancyAppointmentsFragment extends Fragment {
             }
         });
 
-
-
     }
 
     private void deleteFromFirebase(Appointment a){
@@ -109,6 +111,25 @@ public class ConsultancyAppointmentsFragment extends Fragment {
         DatabaseReference ref = database.getReference("Appointments");
         //todo descomentar esto!!!! es para que no me borre los turnos cuando pruebo y los tenga que ir a agregar de vuelta
         //ref.child(a.getAppointmentId()).removeValue();
+    }
+
+    private void overrideBackButton(View view){
+
+        //Tiro esto por acá para overraidee el botón de atrás y no vuelva a la videollamada
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+                                  @Override
+                                  public boolean onKey(View v, int keyCode, KeyEvent event) {
+                                      if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                          NavController navController = Navigation.findNavController(view);
+                                          navController.navigate(R.id.ProductsFragment);
+                                          return true;
+                                      }
+                                      return false;
+                                  }
+                              }
+        );
     }
 
     private void putInSharedPreferences(Appointment a){

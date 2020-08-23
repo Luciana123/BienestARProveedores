@@ -17,19 +17,16 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bienestarproveedores.HeaderLayout;
 import com.example.bienestarproveedores.R;
 import com.example.bienestarproveedores.consultancy.Appointment;
-import com.example.bienestarproveedores.consultancy.AppointmentsProvider;
-import com.example.bienestarproveedores.consultancy.ConsultancyAppointmentsFragmentDirections;
 import com.example.bienestarproveedores.firebase.FirebaseViewModel;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,22 +76,32 @@ public class MealsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                int selectedPostion = adapter.getSelected();
 
-                if(adapter.getSelected() != NO_SELECTION) {
+                if(selectedPostion != NO_SELECTION) {
 
-                    //TODO acá debería borrarlo con firebase!!!
-                    int pos = adapter.getSelected();
-                    adapter.meals.remove(pos);
-                    adapter.viewValues.remove(pos);
-                    adapter.notifyItemRemoved(pos);
+                    Meal m = adapter.meals.get(selectedPostion);
+
+                    adapter.meals.remove(selectedPostion);
+                    adapter.viewValues.remove(selectedPostion);
+                    adapter.notifyItemRemoved(selectedPostion);
 
 
+
+                    modifyStatusFirebase(m);
 
                 }
 
             }
         });
 
+    }
+
+    private void modifyStatusFirebase(Meal meal){
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("Meals");
+        //todo descomentar esto!!!! es para que no me borre los turnos cuando pruebo y los tenga que ir a agregar de vuelta
+        ref.child(meal.getId()).child("status").setValue("confirmed");
     }
 
     /**
@@ -117,15 +124,15 @@ public class MealsFragment extends Fragment {
 
         public void showAppointment(Iterable< DataSnapshot > mealsData) {
             this.meals = new ArrayList<>();
-            for (DataSnapshot appointmentData : mealsData) {
-                HashMap appointmentsDataMap = (HashMap) appointmentData.getValue();
+            for (DataSnapshot mealData : mealsData) {
+                HashMap appointmentsDataMap = (HashMap) mealData.getValue();
                 String title = (String) appointmentsDataMap.get("title");
                 String patientName = (String) appointmentsDataMap.get("patient_name");
                 String desc = (String) appointmentsDataMap.get("desc");
                 String status = (String) appointmentsDataMap.get("status");
 
                 if(status.equals("pending")){
-                    Meal a = new Meal(title, desc);
+                    Meal a = new Meal(mealData.getKey(), title, desc);
                     this.meals.add(a);
                 }
             }
