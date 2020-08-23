@@ -7,6 +7,7 @@ import com.example.bienestarproveedores.data.LoginDataSource;
 import com.example.bienestarproveedores.ui.login.LoginActivity;
 import com.example.bienestarproveedores.ui.login.Provider;
 import com.example.bienestarproveedores.ui.login.ProviderType;
+import com.example.bienestarproveedores.utils.Utils;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
@@ -15,7 +16,6 @@ import android.view.MenuItem;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private void providersSetUp() {
         HashMap<String, Provider> providers = new HashMap<>();
 
-        providers.put("bienestar", new Provider("Juan Carlos Rodriguez","jcrodriguez",
+        providers.put(Utils.ROOT_USER, new Provider("Juan Carlos Rodriguez", Utils.ROOT_USER,
                 "bienestar", ProviderType.Medic));
         providers.put("felix", new Provider("Joao Felix", "felix", "bienestar",
                 ProviderType.Medic));

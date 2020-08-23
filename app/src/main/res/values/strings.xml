@@ -45,4 +45,5 @@
     <string name="textview">TextView</string>
     <string name="escriba_aqu_la_receta_para_el_paciente">Escriba aquí la receta para el paciente</string>
     <string name="enviar">ENVIAR</string>
+    <string name="new_to_bienestar_providers">New to BienestAR providers?</string>
 </resources>

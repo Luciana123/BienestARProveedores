@@ -1,7 +1,6 @@
 package com.example.bienestarproveedores;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import androidx.navigation.Navigation;
 import com.example.bienestarproveedores.data.LoginDataSource;
 import com.example.bienestarproveedores.ui.login.Provider;
 import com.example.bienestarproveedores.ui.login.ProviderType;
+import com.example.bienestarproveedores.utils.Utils;
 
 
 public class ProductsFragment extends Fragment {
@@ -79,7 +79,7 @@ public class ProductsFragment extends Fragment {
     welcomeMsj.setText("Welcome " + username);
     Provider provider = LoginDataSource.getProvider(username);
 
-    if (username.equals("bienestar")) return;
+    if (username.equals(Utils.ROOT_USER)) return;
 
     if (provider.getType() == ProviderType.Medic) {
       assistanceProductLayout.setVisibility(View.GONE);
