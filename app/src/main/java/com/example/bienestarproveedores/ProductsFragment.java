@@ -41,6 +41,10 @@ public class ProductsFragment extends Fragment {
             .getSharedPreferences(getString(R.string.shared_preferences_file), getContext().MODE_PRIVATE)
             .getString("username", "");
 
+    String name = getContext()
+            .getSharedPreferences(getString(R.string.shared_preferences_file), getContext().MODE_PRIVATE)
+            .getString("name", "");
+
 
     getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getContext(), R.color.common_google_signin_btn_text_light_focused));
     getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(), R.color.common_google_signin_btn_text_light_focused));
@@ -76,7 +80,7 @@ public class ProductsFragment extends Fragment {
 
     if (username.isEmpty()) return;
 
-    welcomeMsj.setText("Welcome " + username);
+    welcomeMsj.setText("Welcome " + name);
     Provider provider = LoginDataSource.getProvider(username);
 
     if (username.equals(Utils.ROOT_USER)) return;

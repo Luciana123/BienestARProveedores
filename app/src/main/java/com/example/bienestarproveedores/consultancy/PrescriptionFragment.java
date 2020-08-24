@@ -95,7 +95,8 @@ public class PrescriptionFragment extends Fragment {
                 ref.child(prescriptionId).child("date").setValue(LocalDate.now().toString());
                 ref.child(prescriptionId).child("prescription").setValue(prescription.getText().toString());
                 ref.child(prescriptionId).child("client_id").setValue(sharedPref.getString("patient_id", "1"));
-                ref.child(prescriptionId).child("medic_id").setValue(sharedPref.getString("id", "1"));
+                String doctorId = String.valueOf(sharedPref.getInt("id", 1));
+                ref.child(prescriptionId).child("medic_id").setValue(doctorId);
                 ref.child(prescriptionId).child("medic_name").setValue(sharedPref.getString("name", ""));
 
                 NavController navController = Navigation.findNavController(view);

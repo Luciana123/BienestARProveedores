@@ -41,11 +41,11 @@ public class MainActivity extends AppCompatActivity {
 
         providers.put(Utils.ROOT_USER, new Provider("Juan Carlos Rodriguez", Utils.ROOT_USER,
                 "bienestar", ProviderType.Medic));
-        providers.put("felix", new Provider("Joao Felix", "Dr. Felix", "bienestar",
+        providers.put("felix", new Provider("Joao Felix", "felix", "bienestar",
                 ProviderType.Medic));
         providers.put("bautista", new Provider("Bautista Cristophe", "bautista",
                 "bienestar", ProviderType.Meals));
-        providers.put("santiago", new Provider("Santiago Gonzales", "Asistente Santiago",
+        providers.put("santiago", new Provider("Santiago Gonzales", "santiago",
                 "bienestar", ProviderType.Assistance));
         providers.put("luciana", new Provider("Luciana Fernandez", "luciana",
                 "bienestar", ProviderType.Meals));
