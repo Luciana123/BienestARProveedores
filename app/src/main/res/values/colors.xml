@@ -15,5 +15,6 @@
     <color name="colorAssistanceSelected">#401F6E68</color>
     <color name="colorMealsSelected">#40007032</color>
     <color name="colorConsultancySelected">#40A02C2C</color>
+    <color name="transarent">#00A02C2C</color>
 
 </resources>
