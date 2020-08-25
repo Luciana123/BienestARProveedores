@@ -143,7 +143,7 @@ public class MealsFragment extends Fragment {
                 String status = (String) appointmentsDataMap.get("status");
                 String doctorId = (String) appointmentsDataMap.get("doctor_id");
 
-                if(status.equals("pending") && this.userId.equals(doctorId)){
+                if((status != null) && status.equals("pending") && this.userId.equals(doctorId)){
                     Meal a = new Meal(mealData.getKey(), title, desc);
                     this.meals.add(a);
                 }
