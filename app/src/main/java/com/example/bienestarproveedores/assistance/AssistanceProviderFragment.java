@@ -1,5 +1,6 @@
-package com.example.bienestarproveedores.consultancy;
+package com.example.bienestarproveedores.assistance;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,11 +21,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 
 import com.example.bienestarproveedores.HeaderLayout;
 import com.example.bienestarproveedores.R;
@@ -37,26 +36,30 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ConsultancyAppointmentsFragment extends Fragment {
+public class AssistanceProviderFragment extends Fragment {
 
     private static int NO_SELECTION = 100000;
 
     private SharedPreferences sharedPref;
     private int userId;
+    private String name;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.consultancy_appointments_list_fragment, container, false);
+        return inflater.inflate(R.layout.assistance_pending_list_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.getActivity());
+
         super.onViewCreated(view, savedInstanceState);
         HeaderLayout header = view.findViewById(R.id.fragment_header);
         ImageView icon = view.findViewById(R.id.bienestarPLogo);
-        header.setDescription(getString(R.string.consultancy_appointments));
-        header.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorConsultancy));
+        header.setDescription(getString(R.string.assistance));
+        header.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorAssistance));
 
         sharedPref = getContext().getSharedPreferences(
                 getString(R.string.shared_preferences_file), Context.MODE_PRIVATE);
@@ -64,17 +67,19 @@ public class ConsultancyAppointmentsFragment extends Fragment {
         userId = sharedPref
                 .getInt("id", new Integer(0));
 
-        getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(), R.color.colorConsultancyB));
+        name = sharedPref.getString("name", "");
 
-        RecyclerView orderItemsRecyclerView = view.findViewById(R.id.appointments_recyclerview);
+        getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(), R.color.colorAssistanceB));
+
+        RecyclerView orderItemsRecyclerView = view.findViewById(R.id.assistants_recyclerview);
         orderItemsRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        ConsultancyAppointmentsAdapter adapter = new ConsultancyAppointmentsAdapter(String.valueOf(this.userId));
+        AssistancyAppointmentsAdapter adapter = new AssistancyAppointmentsAdapter(String.valueOf(this.userId), alertDialogBuilder.create());
         orderItemsRecyclerView.setAdapter(adapter);
 
         FirebaseViewModel firebaseViewModel = new ViewModelProvider(this).get(FirebaseViewModel.class);
         LiveData<DataSnapshot> appointmentsDataSnapshot = firebaseViewModel
-                .getAppointmentsDataSnapshot();
+                .getAssistanceLiveSnapshot();
 
         overrideBackButton(view);
 
@@ -86,26 +91,24 @@ public class ConsultancyAppointmentsFragment extends Fragment {
             }
         });
 
-        Button buttonAssist = view.findViewById(R.id.check_in_button);
-        NavDirections specialistAction = ConsultancyAppointmentsFragmentDirections.actionConsultancyAppointmentsFragmentToVideoCallFragment();
-        buttonAssist.setOnClickListener(new View.OnClickListener() {
+        Button buttonConfirm = view.findViewById(R.id.assistance_confirm);
+        buttonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
                 int selectedPostion = adapter.getSelected();
+
                 if(selectedPostion != NO_SELECTION) {
 
+                    AssistanceRequest m = adapter.assistanceRequests.get(selectedPostion);
+
+                    adapter.assistanceRequests.remove(selectedPostion);
                     adapter.viewValues.remove(selectedPostion);
                     adapter.notifyItemRemoved(selectedPostion);
 
-                    Appointment a = adapter.appointments.get(selectedPostion);
 
-                    deleteFromFirebase(a);
-                    putInSharedPreferences(a);
 
-                    NavController navController = Navigation.findNavController(view);
-                    navController.navigate(R.id.videoCallFragment);
+                    modifyStatusFirebase(m);
 
                 }
 
@@ -114,10 +117,12 @@ public class ConsultancyAppointmentsFragment extends Fragment {
 
     }
 
-    private void deleteFromFirebase(Appointment a){
+    private void modifyStatusFirebase(AssistanceRequest assistance){
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("Appointments");
-        ref.child(a.getAppointmentId()).removeValue();
+        DatabaseReference ref = database.getReference("Assistance");
+        ref.child(assistance.getKey()).child("status").setValue("confirmed");
+        ref.child(assistance.getKey()).child("assistant_name").setValue(this.name);
+        ref.child(assistance.getKey()).child("assistant_id").setValue(String.valueOf(this.userId));
     }
 
     private void overrideBackButton(View view){
@@ -139,46 +144,40 @@ public class ConsultancyAppointmentsFragment extends Fragment {
         );
     }
 
-    private void putInSharedPreferences(Appointment a){
-        Context context = getActivity();
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                getString(R.string.sharedPreferences), Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("patient_id", a.getPatientId());
-        editor.putString("patient_name", a.getPatientName());
-        editor.commit();
-    }
-
     /**
      * Adapter for the medical specialists / professionals recycler view.
      */
-    private static class ConsultancyAppointmentsAdapter extends RecyclerView.Adapter<ConsultancyAppointmentsItemsViewHolder> {
+    private static class AssistancyAppointmentsAdapter extends RecyclerView.Adapter<AssistanceItemsViewHolder> {
 
-        List<Appointment> appointments = new ArrayList<>();
-        private List<ConsultancyAppointmentsItemsViewHolder> viewValues = new ArrayList<>();
+        List<AssistanceRequest> assistanceRequests = new ArrayList<>();
+        private List<AssistanceItemsViewHolder> viewValues = new ArrayList<>();
         private String userId;
+        private AlertDialog dialog;
 
-        public ConsultancyAppointmentsAdapter(String userId){
+        public AssistancyAppointmentsAdapter(String userId, AlertDialog alertDialog){
             this.userId = userId;
+            this.dialog = alertDialog;
 
         }
 
-        public void showAppointment(Iterable<DataSnapshot> appointmentsData) {
-            this.appointments = new ArrayList<>();
-            for (DataSnapshot appointmentData : appointmentsData) {
+        public void showAppointment(Iterable<DataSnapshot> assistanceReqsData) {
+            this.assistanceRequests = new ArrayList<>();
+            for (DataSnapshot appointmentData : assistanceReqsData) {
                 HashMap appointmentsDataMap = (HashMap) appointmentData.getValue();
-                String date = (String) appointmentsDataMap.get("date");
-                String time = (String) appointmentsDataMap.get("time");
-                String consultancyType = (String) appointmentsDataMap.get("consultancy_type");
-                String doctorId = (String) appointmentsDataMap.get("doctor_id");
-                String patientName = (String) appointmentsDataMap.get("patient_name");
-                String patientId = (String) appointmentsDataMap.get("patient_id");
 
-                assert doctorId != null;
-                Appointment a = new Appointment(doctorId, patientId, consultancyType, patientName, time, appointmentData.getKey(), date);
-                if(a.getDoctorId().equals(userId)){
-                    this.appointments.add(a);
+                String assistantId = (String) appointmentsDataMap.get("assistant_id");
+                String assistantName = (String) appointmentsDataMap.get("assistant_name");
+                String clientId = (String) appointmentsDataMap.get("client_id");
+                String clientName = (String) appointmentsDataMap.get("client_name");
+                String details = (String) appointmentsDataMap.get("details");
+                String type = (String) appointmentsDataMap.get("type");
+                String status = (String) appointmentsDataMap.get("status");
+                assert assistantId != null;
+
+
+                if((status != null) && status.equals("pending")){
+                    AssistanceRequest a = new AssistanceRequest(assistantId, assistantName, clientId, clientName, details, status, type, appointmentData.getKey());
+                    this.assistanceRequests.add(a);
                 }
 
             }
@@ -188,12 +187,12 @@ public class ConsultancyAppointmentsFragment extends Fragment {
 
         @NonNull
         @Override
-        public ConsultancyAppointmentsItemsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.consultancy_appointment_item, parent, false);
+        public AssistanceItemsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.assistance_pending_item, parent, false);
 
             view.setOnClickListener(v -> {
-                v.setBackgroundColor(v.getResources().getColor(R.color.colorConsultancySelected));
-                for(ConsultancyAppointmentsItemsViewHolder item: viewValues) {
+                v.setBackgroundColor(v.getResources().getColor(R.color.colorAssistanceSelected));
+                for(AssistanceItemsViewHolder item: viewValues) {
                     if(item.itemView != v){
                         item.setSelected(false);
                         item.itemView.setBackgroundColor(item.itemView.getResources().getColor(R.color.colorWhite));
@@ -203,28 +202,27 @@ public class ConsultancyAppointmentsFragment extends Fragment {
                 }
             });
 
-            return new ConsultancyAppointmentsItemsViewHolder(view);
+            return new AssistanceItemsViewHolder(view, this.dialog);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ConsultancyAppointmentsItemsViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull AssistanceItemsViewHolder holder, int position) {
             //TODO: set profile picture and description.
-            holder.setName(appointments.get(position).getPatientName());
-            holder.setDescription(appointments.get(position).getConsultancyType());
-            holder.setAppointmentTime(appointments.get(position).getAppointmentTime());
-            holder.setAppointmentDate(appointments.get(position).getDate());
+            holder.setName(assistanceRequests.get(position).getClientName());
+            holder.setDescription(assistanceRequests.get(position).getType());
+            holder.setDetails(assistanceRequests.get(position).getDetails());
             viewValues.add(holder);
         }
 
         @Override
         public int getItemCount() {
-            return appointments.size();
+            return assistanceRequests.size();
         }
 
         public int getSelected() {
-            int selectedPos = ConsultancyAppointmentsFragment.NO_SELECTION;
+            int selectedPos = AssistanceProviderFragment.NO_SELECTION;
 
-            for (ConsultancyAppointmentsItemsViewHolder item : viewValues) {
+            for (AssistanceItemsViewHolder item : viewValues) {
                 if (item.isSelected()) {
                     selectedPos = item.getAdapterPosition();
                 }
@@ -236,30 +234,32 @@ public class ConsultancyAppointmentsFragment extends Fragment {
     /**
      * ViewHolder to display the details of an item of the meals order
      */
-    private static class ConsultancyAppointmentsItemsViewHolder extends RecyclerView.ViewHolder {
+    private static class AssistanceItemsViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView pic;
         private TextView name;
         private TextView desc;
-        private TextView appointmentTime;
-        private TextView appointmentDate;
+
+        private String details = "";
 
         private boolean selected;
 
-        ConsultancyAppointmentsItemsViewHolder(@NonNull View itemView) {
+        AssistanceItemsViewHolder(@NonNull View itemView, AlertDialog dialog) {
             super(itemView);
-            pic = itemView.findViewById(R.id.doctor_pic);
-            name = itemView.findViewById(R.id.doctor_name);
-            desc = itemView.findViewById(R.id.appointment_desc);
-            appointmentTime = itemView.findViewById(R.id.appointment_time);
-            appointmentDate = itemView.findViewById(R.id.appointment_date);
+            pic = itemView.findViewById(R.id.assistant_profile_pic);
+            name = itemView.findViewById(R.id.assistant_name);
+            desc = itemView.findViewById(R.id.assistance_description);
+
+            itemView.findViewById(R.id.assistance_details).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.setMessage(details);
+                    dialog.show();
+                }
+            });
 
         }
 
-        /**
-         * Sets the profile picture of the view holder.
-         * @param resId the resource identifier of the drawable.
-         */
         void setPic(@DrawableRes int resId) {
             pic.setImageResource(resId);
         }
@@ -280,20 +280,9 @@ public class ConsultancyAppointmentsFragment extends Fragment {
             desc.setText(description);
         }
 
-        public TextView getAppointmentTime() {
-            return appointmentTime;
+        void setDetails(String details) {
+            this.details = details;
         }
 
-        public void setAppointmentTime(String appointmentTime) {
-            this.appointmentTime.setText(appointmentTime);
-        }
-
-        public TextView getAppointmentDate() {
-            return appointmentDate;
-        }
-
-        public void setAppointmentDate(String appointmentDate) {
-            this.appointmentDate.setText(appointmentDate);
-        }
     }
 }

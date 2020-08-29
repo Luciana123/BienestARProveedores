@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_ProductsFragment_to_mealsFragment"
             app:destination="@id/mealsFragment" />
+        <action
+            android:id="@+id/action_ProductsFragment_to_assistanceProviderFragment"
+            app:destination="@id/assistanceProviderFragment" />
     </fragment>
     <fragment
         android:id="@+id/consultancyAppointmentsFragment"
@@ -45,4 +48,8 @@
         android:id="@+id/mealsFragment"
         android:name="com.example.bienestarproveedores.meals.MealsFragment"
         android:label="MealsFragment" />
+    <fragment
+        android:id="@+id/assistanceProviderFragment"
+        android:name="com.example.bienestarproveedores.assistance.AssistanceProviderFragment"
+        android:label="AssistanceProviderFragment" />
 </navigation>

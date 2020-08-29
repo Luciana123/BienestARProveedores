@@ -13,10 +13,12 @@ public class FirebaseViewModel extends ViewModel {
   private static final DatabaseReference APPOINTMENTS_DB = FIREBASE_DB.getReference("Appointments");
   private static final DatabaseReference PRESCRIPTIONS_DB = FIREBASE_DB.getReference("Prescriptions");
   private static final DatabaseReference MEALS_DB = FIREBASE_DB.getReference("Meals");
+  private static final DatabaseReference ASSISTANCE_DB = FIREBASE_DB.getReference("Assistance");
 
   private final FirebaseQueryLiveData appointmentsLiveData = new FirebaseQueryLiveData(APPOINTMENTS_DB);
   private final FirebaseQueryLiveData prescriptionsLiveData = new FirebaseQueryLiveData(PRESCRIPTIONS_DB);
   private final FirebaseQueryLiveData mealsLiveData = new FirebaseQueryLiveData(MEALS_DB);
+  private final FirebaseQueryLiveData assistanceLiveData = new FirebaseQueryLiveData(ASSISTANCE_DB);
 
   public LiveData<DataSnapshot> getAppointmentsDataSnapshot() {
     return appointmentsLiveData;
@@ -28,6 +30,10 @@ public class FirebaseViewModel extends ViewModel {
 
   public LiveData<DataSnapshot> getMealsLiveDataSnapshot() {
     return mealsLiveData;
+  }
+
+  public LiveData<DataSnapshot> getAssistanceLiveSnapshot() {
+    return assistanceLiveData;
   }
 
 }

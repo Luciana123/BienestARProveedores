@@ -14,28 +14,28 @@
         layout:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/meals_recyclerview"
+        android:id="@+id/assistants_recyclerview"
         android:layout_width="match_parent"
         android:layout_marginTop="8dp"
         layout:layout_constraintStart_toStartOf="parent"
         layout:layout_constraintEnd_toEndOf="parent"
         layout:layout_constraintTop_toBottomOf="@+id/fragment_header"
-        layout:layout_constraintBottom_toTopOf="@id/confirm"
+        layout:layout_constraintBottom_toTopOf="@id/assistance_confirm"
 
         android:layout_height="0dp" />
 
     <Button
-        android:id="@+id/confirm"
+        android:id="@+id/assistance_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorMeals"
+        android:backgroundTint="@color/colorPrimary"
         android:text="confirm"
         android:textColor="@android:color/white"
         android:textSize="30sp"
         layout:layout_constraintBottom_toBottomOf="parent"
         layout:layout_constraintEnd_toEndOf="parent"
         layout:layout_constraintStart_toStartOf="parent"
-        layout:layout_constraintTop_toBottomOf="@+id/meals_recyclerview" />
+        layout:layout_constraintTop_toBottomOf="@+id/assistants_recyclerview" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -84,8 +84,8 @@ public class ProductsFragment extends Fragment {
     assistanceProductLayout.setBackgroundResource(R.drawable.rounded);
     assistanceProductLayout.setImageResource(R.drawable.ic_main_assist_hand);
     assistanceProductLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorAssistance));
-    //NavDirections assistanceAction = ProductsFragmentDirections.actionProductsFragmentToAssistanceFragment();
-    //assistanceProductLayout.setOnClickListener(Navigation.createNavigateOnClickListener(assistanceAction));
+    NavDirections assistanceAction = ProductsFragmentDirections.actionProductsFragmentToAssistanceProviderFragment();
+    assistanceProductLayout.setOnClickListener(Navigation.createNavigateOnClickListener(assistanceAction));
 
     logoutButton = view.findViewById(R.id.logout);
 
