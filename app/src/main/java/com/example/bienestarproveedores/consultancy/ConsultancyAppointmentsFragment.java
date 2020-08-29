@@ -36,7 +36,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 public class ConsultancyAppointmentsFragment extends Fragment {
 
@@ -177,7 +176,7 @@ public class ConsultancyAppointmentsFragment extends Fragment {
                 String patientId = (String) appointmentsDataMap.get("patient_id");
 
                 assert doctorId != null;
-                Appointment a = new Appointment(doctorId, patientId, consultancyType, patientName, time, appointmentData.getKey());
+                Appointment a = new Appointment(doctorId, patientId, consultancyType, patientName, time, appointmentData.getKey(), date);
                 if(a.getDoctorId().equals(userId)){
                     this.appointments.add(a);
                 }
@@ -213,6 +212,7 @@ public class ConsultancyAppointmentsFragment extends Fragment {
             holder.setName(appointments.get(position).getPatientName());
             holder.setDescription(appointments.get(position).getConsultancyType());
             holder.setAppointmentTime(appointments.get(position).getAppointmentTime());
+            holder.setAppointmentDate(appointments.get(position).getDate());
             viewValues.add(holder);
         }
 
@@ -242,6 +242,7 @@ public class ConsultancyAppointmentsFragment extends Fragment {
         private TextView name;
         private TextView desc;
         private TextView appointmentTime;
+        private TextView appointmentDate;
 
         private boolean selected;
 
@@ -251,6 +252,7 @@ public class ConsultancyAppointmentsFragment extends Fragment {
             name = itemView.findViewById(R.id.doctor_name);
             desc = itemView.findViewById(R.id.appointment_desc);
             appointmentTime = itemView.findViewById(R.id.appointment_time);
+            appointmentDate = itemView.findViewById(R.id.appointment_date);
 
         }
 
@@ -284,6 +286,14 @@ public class ConsultancyAppointmentsFragment extends Fragment {
 
         public void setAppointmentTime(String appointmentTime) {
             this.appointmentTime.setText(appointmentTime);
+        }
+
+        public TextView getAppointmentDate() {
+            return appointmentDate;
+        }
+
+        public void setAppointmentDate(String appointmentDate) {
+            this.appointmentDate.setText(appointmentDate);
         }
     }
 }
