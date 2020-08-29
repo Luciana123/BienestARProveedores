@@ -2,6 +2,7 @@ package com.example.bienestarproveedores.ui.login;
 
 import android.app.Activity;
 
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -52,6 +53,8 @@ public class LoginActivity extends AppCompatActivity {
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
         loadingProgressBar.setVisibility(View.GONE);
+
+        getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhite));
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
