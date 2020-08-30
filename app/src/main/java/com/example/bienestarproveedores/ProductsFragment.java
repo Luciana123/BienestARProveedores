@@ -118,5 +118,6 @@ public class ProductsFragment extends Fragment {
       assistanceProductLayout.setVisibility(View.GONE);
       consultancyProductLayout.setVisibility(View.GONE);
     }
+
   }
 }
