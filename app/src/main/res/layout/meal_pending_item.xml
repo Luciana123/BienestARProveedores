@@ -3,50 +3,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_height="?android:attr/listPreferredItemHeightLarge"
     android:padding="6dip" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageButton
+        <Button
             android:id="@+id/meal_details"
             android:layout_width="29dp"
             android:layout_height="28dp"
-
-            android:layout_marginEnd="24dp"
+            android:gravity="center_vertical"
             android:background="@drawable/ic_baseline_info_2433"
-            android:singleLine="true"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/meal_pic"
+            android:layout_width="81dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:src="@mipmap/ic_launcher_round"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_main_assist_hand" />
 
         <TextView
             android:id="@+id/meal_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignWithParentIfMissing="true"
-            android:layout_marginStart="80dp"
-            android:gravity="center_vertical"
-            android:text="Example application"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/meal_pic"
-            android:layout_width="48dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="16dp"
-            android:contentDescription="TODO"
-            android:src="@drawable/ic_main_medic"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/specialist_name_default"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/meal_pic"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_main_medic" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/meal_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/meal_description_default"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toStartOf="@id/meal_details"
+            app:layout_constraintStart_toEndOf="@+id/meal_pic"
+            app:layout_constraintTop_toBottomOf="@+id/meal_name" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 </RelativeLayout>

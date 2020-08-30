@@ -15,6 +15,7 @@
     <string name="specialist_profile_picture_desc">Specialist profile picture</string>
     <string name="specialist_name_default">Specialist name</string>
     <string name="specialist_description_default">Specialist description</string>
+    <string name="meal_description_default">Las Flores 567, CABA</string>
     <string name="meals_order_header">Your order</string>
     <string name="pharmacy_header">Pharmacy</string>
     <string name="consultancy_appointments">Pending appointments</string>

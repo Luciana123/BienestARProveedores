@@ -143,8 +143,16 @@ public class MealsFragment extends Fragment {
                 String status = (String) appointmentsDataMap.get("status");
                 String doctorId = (String) appointmentsDataMap.get("doctor_id");
 
+                String address = (String) appointmentsDataMap.get("address");
+
                 if((status != null) && status.equals("pending") && this.userId.equals(doctorId)){
-                    Meal a = new Meal(mealData.getKey(), title, desc);
+                    Meal a;
+                    if(address != null) {
+                        a = new Meal(mealData.getKey(), title, desc, address);
+                    } else {
+                        a = new Meal(mealData.getKey(), title, desc, "Av. San Martín 1314, CABA");
+                    }
+
                     this.meals.add(a);
                 }
             }
@@ -178,6 +186,7 @@ public class MealsFragment extends Fragment {
             holder.setPic(R.drawable.ic_main_viands_apple);
             holder.setName(meals.get(position).getNombre());
             holder.setDetalles(meals.get(position).getDescripcion());
+            holder.setDescription(meals.get(position).getAddress());
             viewValues.add(holder);
         }
 
@@ -206,6 +215,7 @@ public class MealsFragment extends Fragment {
         private ImageView pic;
         private TextView name;
         private String detalles = "";
+        private TextView description;
 
         private boolean selected;
 
@@ -213,6 +223,7 @@ public class MealsFragment extends Fragment {
             super(itemView);
             pic = itemView.findViewById(R.id.meal_pic);
             name = itemView.findViewById(R.id.meal_name);
+            description = itemView.findViewById(R.id.meal_description);
 
             itemView.findViewById(R.id.meal_details).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -251,6 +262,14 @@ public class MealsFragment extends Fragment {
 
         public void setDetalles(String detalles) {
             this.detalles = detalles;
+        }
+
+        public TextView getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description.setText(description);
         }
     }
 }
