@@ -54,7 +54,7 @@ public class ProductsFragment extends Fragment {
             .getSharedPreferences(getString(R.string.shared_preferences_file), getContext().MODE_PRIVATE)
             .getString("name", "");
 
-
+    getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
     getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getContext(), R.color.common_google_signin_btn_text_light_focused));
     getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(), R.color.common_google_signin_btn_text_light_focused));
 
@@ -118,5 +118,6 @@ public class ProductsFragment extends Fragment {
       assistanceProductLayout.setVisibility(View.GONE);
       consultancyProductLayout.setVisibility(View.GONE);
     }
+
   }
 }

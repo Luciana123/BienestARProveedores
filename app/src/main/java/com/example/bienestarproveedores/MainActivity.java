@@ -10,6 +10,8 @@ import com.example.bienestarproveedores.ui.login.ProviderType;
 import com.example.bienestarproveedores.utils.Utils;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         providersSetUp();
+
+        getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhite));
 
         String username = getApplicationContext()
                 .getSharedPreferences(getString(R.string.shared_preferences_file), this.MODE_PRIVATE)

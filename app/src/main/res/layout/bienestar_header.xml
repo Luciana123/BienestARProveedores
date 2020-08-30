@@ -16,12 +16,11 @@
             android:id="@+id/bienestarPLogo"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:contentDescription="@string/bienestar_logo"
             android:src="@drawable/ic_logo_bienestar_corazon"
             android:tint="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/textView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -1,5 +1,6 @@
 package com.example.bienestarproveedores.consultancy;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -43,13 +45,25 @@ public class PrescriptionFragment extends Fragment {
         return inflater.inflate(R.layout.consultancy_prescription_fragment, container, false);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         HeaderLayout header = view.findViewById(R.id.fragment_header);
+        TextView patientText = view.findViewById(R.id.patientTExt);
+        TextView medicText = view.findViewById(R.id.medicText);
+
+
 
         sharedPref = getContext().getSharedPreferences(
                 getString(R.string.shared_preferences_file), Context.MODE_PRIVATE);
+
+
+        String username = sharedPref.getString("name", "");
+        String patientName = sharedPref.getString("patient_name", "");
+
+        patientText.setText("Describe prescription for: " + patientName);
+        medicText.setText(username);
 
         header.setDescription(getString(R.string.consultancy_prescriptions));
         header.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorConsultancy));

@@ -145,9 +145,9 @@ public class ConsultancyAppointmentsFragment extends Fragment {
                 getString(R.string.sharedPreferences), Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("patient_id", a.getPatientId().toString());
+        editor.putString("patient_id", a.getPatientId());
+        editor.putString("patient_name", a.getPatientName());
         editor.commit();
-
     }
 
     /**
