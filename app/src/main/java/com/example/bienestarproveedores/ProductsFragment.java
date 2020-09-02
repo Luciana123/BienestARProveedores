@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,9 +46,10 @@ public class ProductsFragment extends Fragment {
     ProductLayout mealsProductLayout;
     ProductLayout assistanceProductLayout;
     ProductLayout consultancyProductLayout;
-    ProductLayout pharmacyProductLayout;
+    ImageView productsBackground;
     ImageButton logoutButton;
     TextView welcomeMsj;
+
     String username = getContext()
             .getSharedPreferences(getString(R.string.shared_preferences_file), getContext().MODE_PRIVATE)
             .getString("username", "");
@@ -104,19 +108,24 @@ public class ProductsFragment extends Fragment {
     welcomeMsj.setText("Welcome " + name);
     Provider provider = LoginDataSource.getProvider(username);
 
+    productsBackground = view.findViewById(R.id.productsBackground);
+
     if (username.equals(Utils.ROOT_USER)) return;
 
     if (provider.getType() == ProviderType.Medic) {
       assistanceProductLayout.setVisibility(View.GONE);
       mealsProductLayout.setVisibility(View.GONE);
+      productsBackground.setImageResource(R.drawable.consultancy_background);
     }
     if (provider.getType() == ProviderType.Assistance) {
       consultancyProductLayout.setVisibility(View.GONE);
       mealsProductLayout.setVisibility(View.GONE);
+      productsBackground.setImageResource(R.drawable.assistance_background);
     }
     if (provider.getType() == ProviderType.Meals) {
       assistanceProductLayout.setVisibility(View.GONE);
       consultancyProductLayout.setVisibility(View.GONE);
+      productsBackground.setImageResource(R.drawable.meals_background);
     }
 
   }
